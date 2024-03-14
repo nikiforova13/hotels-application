@@ -4,9 +4,9 @@ import uvicorn
 from fastapi import FastAPI, Query, Depends
 from typing import Optional
 from pydantic import BaseModel
-
+from app.bookings import bookings_router
 app = FastAPI()
-
+app.include_router(bookings_router)
 
 class SHotel(BaseModel):
     address: str
@@ -44,9 +44,9 @@ class SBooking(BaseModel):
     date_to: date
 
 
-@app.post("/bookings")
-def add_bookings(booking: SBooking):
-    pass
+# @app.post("/bookings")
+# def add_bookings(booking: SBooking):
+#     pass
 
 
 if __name__ == '__main__':
