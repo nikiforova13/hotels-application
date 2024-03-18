@@ -13,7 +13,14 @@ sqlalchemy = "^2.0.28"
 alembic = "^1.13.1"
 pydantic-settings = "^2.2.1"
 asyncpg = "^0.29.0"
+passlib = "^1.7.4"
+email-validator = "^2.1.1"
+bcrypt = "^4.1.2"
+python-jose = "^3.3.0"
 
+
+[tool.poetry.group.format.dependencies]
+black = "^24.3.0"
 
 [build-system]
 requires = ["poetry-core"]

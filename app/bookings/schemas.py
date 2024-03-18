@@ -2,6 +2,7 @@ import datetime
 
 from pydantic import BaseModel
 
+
 class SBooking(BaseModel):
     id: int
     room_id: int

@@ -32,3 +32,10 @@ class BaseDAO:
             query = sa.select(cls.model).filter_by(**kwargs)
             res = await session.execute(query)
             return res.scalars().all()
+
+    @classmethod
+    async def add(cls, **kwargs):
+        async with async_session_maker() as session:
+            query = sa.insert(cls.model).values(**kwargs)
+            await session.execute(query)
+            await session.commit()
