@@ -4,7 +4,7 @@ from app.database import async_session_maker
 import sqlalchemy as sa
 from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
-from hotels.rooms.models import Rooms
+from app.hotels.rooms.models import Rooms
 
 
 class BookingDAO(BaseDAO):

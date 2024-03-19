@@ -7,10 +7,12 @@ from typing import Optional
 from pydantic import BaseModel
 from app.bookings import bookings_router
 from app.users import router_auth
+from app.hotels import hotels_router
 
 app = FastAPI()
 app.include_router(router_auth)
 app.include_router(bookings_router)
+app.include_router(hotels_router)
 
 
 class SHotel(BaseModel):
