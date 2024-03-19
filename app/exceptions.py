@@ -36,3 +36,8 @@ class IncorrectTokenException(BaseException):
 
 class UserIsNotPresentException(BaseException):
     status_code = status.HTTP_401_UNAUTHORIZED
+
+
+class RoomCannotBeBooked(BaseException):
+    status_code = status.HTTP_409_CONFLICT
+    detail = "Not rooms"
