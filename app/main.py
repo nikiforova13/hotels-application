@@ -17,38 +17,38 @@ app.include_router(hotels_router)
 app.include_router(rooms_router)
 
 
-class SHotel(BaseModel):
-    address: str
-    name: str
-    star: int
+# class SHotel(BaseModel):
+#     address: str
+#     name: str
+#     star: int
 
 
-class HotelsSearchArgs:
-    def __init__(
-        self,
-        location: str,
-        date_from: date,
-        date_to: date,
-        stars: Optional[int] = Query(default=None, ge=1, le=5),
-        has_spa: Optional[bool] = None,
-    ):
-        self.location = location
-        self.date_from = date_from
-        self.date_to = date_to
-        self.stars = stars
-        self.has_spa = has_spa
+# class HotelsSearchArgs:
+#     def __init__(
+#         self,
+#         location: str,
+#         date_from: date,
+#         date_to: date,
+#         stars: Optional[int] = Query(default=None, ge=1, le=5),
+#         has_spa: Optional[bool] = None,
+#     ):
+#         self.location = location
+#         self.date_from = date_from
+#         self.date_to = date_to
+#         self.stars = stars
+#         self.has_spa = has_spa
 
 
-@app.get("/hotels")
-def get_hotels(search_args: HotelsSearchArgs = Depends()) -> list[SHotel]:
-    hotels = [{"address": "kkkk", "name": "love", "stars": 5}]
-    return hotels
-
-
-class SBooking(BaseModel):
-    room_id: int
-    date_from: date
-    date_to: date
+# @app.get("/hotels")
+# def get_hotels(search_args: HotelsSearchArgs = Depends()) -> list[SHotel]:
+#     hotels = [{"address": "kkkk", "name": "love", "stars": 5}]
+#     return hotels
+#
+#
+# class SBooking(BaseModel):
+#     room_id: int
+#     date_from: date
+#     date_to: date
 
 
 # @app.post("/bookings")
