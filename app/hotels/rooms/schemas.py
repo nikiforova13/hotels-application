@@ -10,5 +10,5 @@ class SRooms(BaseModel):
     price: int
     quantity: int
     image_id: int
-    total_cost: int | None = None
-    rooms_left: int | None = None
+    total_cost: int
+    rooms_left: int

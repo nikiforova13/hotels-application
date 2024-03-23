@@ -9,6 +9,6 @@ class SHotels(BaseModel):
     services: list[str]
     rooms_quantity: int
 
+
 class SHotelsWithFreeRooms(SHotels):
     rooms_left: int | None = None
-

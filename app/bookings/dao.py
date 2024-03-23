@@ -74,19 +74,16 @@ class BookingDAO(BaseDAO):
             return None
 
     @classmethod
-    async def delete_booking(
-            cls,
-            user_id: int,
-            booking_id: int
-    ):
+    async def delete_booking(cls, user_id: int, booking_id: int):
         async with async_session_maker() as session:
-            get_booking_by_id_for_current_user = await cls.find_one_or_none(id=booking_id, user_id=user_id)
-            print(get_booking_by_id_for_current_user)
+            get_booking_by_id_for_current_user = await cls.find_one_or_none(
+                id=booking_id, user_id=user_id
+            )
             if get_booking_by_id_for_current_user:
-                del_booking = sa.delete(Bookings).where(Bookings.id==get_booking_by_id_for_current_user.id)
+                del_booking = sa.delete(Bookings).where(
+                    Bookings.id == get_booking_by_id_for_current_user.id
+                )
                 await session.execute(del_booking)
                 await session.commit()
             else:
                 raise BookingNotFound()
-
-

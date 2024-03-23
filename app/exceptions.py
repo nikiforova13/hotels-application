@@ -42,6 +42,7 @@ class RoomCannotBeBooked(BaseException):
     status_code = status.HTTP_409_CONFLICT
     detail = "Not rooms"
 
+
 class BookingNotFound(BaseException):
     status_code = status.HTTP_409_CONFLICT
     detail = "Booking for current user not finded"

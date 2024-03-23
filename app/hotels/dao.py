@@ -95,16 +95,32 @@ class HotelsDAO(BaseDAO):
             all_hotels_by_location = await session.execute(hotels_with_free_rooms)
             return all_hotels_by_location.mappings().all()
 
-    # @classmethod
-    # async def get_rooms_in_certain_hotel(
-    #     cls, hotel_id: int, date_from: datetime, date_to: datetime
-    # ):
-    #     free_rooms = await cls.query_for_get_free_rooms(date_from, date_to)
-    #     # print(free_rooms)
-    #     a = (
-    #         sa.select(Rooms.id, Rooms.hotel_id)
-    #         .select_from(free_rooms)
-    #         .where(Rooms.hotel_id == hotel_id, Rooms.id)
-    #         .join(Rooms, free_rooms.c.id == Rooms.id)
-    #     )
-    #     print(a)
+    @classmethod
+    async def get_free_rooms_in_certain_hotel(
+        cls, hotel_id: int, date_from: datetime, date_to: datetime
+    ):
+        days_of_stays = (date_to - date_from).days
+        booked_rooms = await cls.get_all_booked_rooms(date_from, date_to)
+        all_free_rooms_in_certain_hotel = (
+            sa.select(
+                Rooms.id,
+                Rooms.hotel_id,
+                Rooms.name,
+                Rooms.description,
+                Rooms.services,
+                Rooms.price,
+                Rooms.quantity,
+                Rooms.image_id,
+                (
+                    Rooms.quantity
+                    - sa.func.coalesce(booked_rooms.c.count_booked_specific_rooms, 0)
+                ).label("rooms_left"),
+                (days_of_stays * Rooms.price).label("total_cost"),
+            )
+            .outerjoin_from(Rooms, booked_rooms, Rooms.id == booked_rooms.c.id)
+            .where(Rooms.hotel_id == hotel_id)
+            .order_by(Rooms.id)
+        )
+        async with async_session_maker() as session:
+            rooms = await session.execute(all_free_rooms_in_certain_hotel)
+            return rooms.mappings().all()
