@@ -5,6 +5,7 @@ import sqlalchemy as sa
 from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
 from app.hotels.rooms.models import Rooms
+from app.exceptions import BookingNotFound
 
 
 class BookingDAO(BaseDAO):
@@ -71,3 +72,21 @@ class BookingDAO(BaseDAO):
             return new_booking.scalar()
         else:
             return None
+
+    @classmethod
+    async def delete_booking(
+            cls,
+            user_id: int,
+            booking_id: int
+    ):
+        async with async_session_maker() as session:
+            get_booking_by_id_for_current_user = await cls.find_one_or_none(id=booking_id, user_id=user_id)
+            print(get_booking_by_id_for_current_user)
+            if get_booking_by_id_for_current_user:
+                del_booking = sa.delete(Bookings).where(Bookings.id==get_booking_by_id_for_current_user.id)
+                await session.execute(del_booking)
+                await session.commit()
+            else:
+                raise BookingNotFound()
+
+

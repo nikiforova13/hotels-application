@@ -16,6 +16,7 @@ class BaseDAO:
     async def find_one_or_none(cls, **kwargs):
         async with async_session_maker() as session:
             query = sa.select(cls.model).filter_by(**kwargs)
+            print(query)
             res = await session.execute(query)
             return res.scalar_one_or_none()
 
