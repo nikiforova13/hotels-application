@@ -38,8 +38,6 @@ class BookingDAO(BaseDAO):
                 )
                 .cte("booked_rooms")
             )
-            print(booked_rooms)
-            print("skfjlsdfjdskdfj")
             get_rooms_left = (
                 sa.select(
                     (Rooms.quantity - sa.func.count(booked_rooms.c.room_id)).label(
@@ -51,7 +49,6 @@ class BookingDAO(BaseDAO):
                 .where(Rooms.id == room_id)
                 .group_by(Rooms.quantity, booked_rooms.c.room_id)
             )
-            print(get_rooms_left)
         rooms_left = await session.execute(get_rooms_left)
         rooms_left: int = rooms_left.scalar()
         if rooms_left > 0:
