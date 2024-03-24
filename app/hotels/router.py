@@ -1,12 +1,16 @@
+import asyncio
+
 from fastapi import APIRouter, Depends
 from app.hotels.schemas import SHotels, SHotelsWithFreeRooms
 from datetime import datetime
 from app.hotels.dao import HotelsDAO
+from fastapi_cache.decorator import cache
 
 router = APIRouter(prefix="/hotels", tags=["Hotels"])
 
 
 @router.get("/{location}")
+@cache(expire=20)
 async def get_hotels_by_location_and_time(
     location: str, date_from: datetime, date_to: datetime
 ) -> list[SHotelsWithFreeRooms]:
