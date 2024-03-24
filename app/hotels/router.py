@@ -7,7 +7,7 @@ router = APIRouter(prefix="/hotels", tags=["Hotels"])
 
 
 @router.get("/{location}")
-async def get_hotels(
+async def get_hotels_by_location_and_time(
     location: str, date_from: datetime, date_to: datetime
 ) -> list[SHotelsWithFreeRooms]:
     return await HotelsDAO.get_hotels_with_free_rooms(
