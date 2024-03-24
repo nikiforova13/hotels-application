@@ -1,2 +1,2 @@
-from .router import router as hotels_router
-from .rooms.router import router as rooms_router
+from .router import router as router_hotels
+from .rooms.router import router as router_rooms

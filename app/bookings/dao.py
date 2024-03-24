@@ -6,6 +6,7 @@ from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
 from app.hotels.rooms.models import Rooms
 from app.exceptions import BookingNotFound
+from app.hotels.dao import HotelsDAO
 
 
 class BookingDAO(BaseDAO):
@@ -20,35 +21,17 @@ class BookingDAO(BaseDAO):
         date_to: datetime.datetime,
     ):
         async with async_session_maker() as session:
-            booked_rooms = (
-                sa.select(Bookings)
-                .where(
-                    sa.and_(
-                        Bookings.room_id == room_id,
-                        sa.or_(
-                            sa.and_(
-                                Bookings.date_from >= date_from,
-                                Bookings.date_to <= date_to,
-                            ),
-                            sa.and_(
-                                Bookings.date_from <= date_from,
-                                Bookings.date_to >= date_from,
-                            ),
-                        ),
-                    )
-                )
-                .cte("booked_rooms")
-            )
+            booked_rooms = await HotelsDAO.get_all_booked_rooms(date_from, date_to)
             get_rooms_left = (
                 sa.select(
-                    (Rooms.quantity - sa.func.count(booked_rooms.c.room_id)).label(
+                    (Rooms.quantity - sa.func.count(booked_rooms.c.id)).label(
                         "rooms_left"
                     )
                 )
                 .select_from(Rooms)
-                .outerjoin(booked_rooms, booked_rooms.c.room_id == Rooms.id)
+                .outerjoin(booked_rooms, booked_rooms.c.id == Rooms.id)
                 .where(Rooms.id == room_id)
-                .group_by(Rooms.quantity, booked_rooms.c.room_id)
+                .group_by(Rooms.quantity, booked_rooms.c.id)
             )
         rooms_left = await session.execute(get_rooms_left)
         rooms_left: int = rooms_left.scalar()
