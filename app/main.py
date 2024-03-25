@@ -1,6 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from sqladmin import Admin, ModelView
+
+from app.admin.views import UsersAdmin, BookingsAdmin, RoomsAdmin, HotelsAdmin
+from app.database import engine
+
 from app.bookings import router_bookings
 from app.users import router_auth
 from app.hotels import router_hotels
@@ -28,6 +33,13 @@ app.include_router(router_images)
 def startup():
     redis = aioredis.from_url("redis://localhost")
     FastAPICache.init(RedisBackend(redis), prefix="cache")
+
+
+admin = Admin(app, engine)
+admin.add_view(UsersAdmin)
+admin.add_view(BookingsAdmin)
+admin.add_view(RoomsAdmin)
+admin.add_view(HotelsAdmin)
 
 
 if __name__ == "__main__":
