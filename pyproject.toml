@@ -28,6 +28,8 @@ asyncclient = "^0.0.1"
 
 [tool.poetry.group.format.dependencies]
 black = "^24.3.0"
+isort = "^5.13.2"
+autoflake = "^2.3.1"
 
 
 [tool.poetry.group.tests.dependencies]
@@ -35,8 +37,29 @@ pytest-asyncio = "0.21.0"
 pytest = "8.0.0"
 httpx = "^0.27.0"
 
+
+[tool.poetry.group.linters.dependencies]
+flake8 = "^7.0.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.autoflake]
+check_diff = true
+
+[tool.isort]
+profile = 'black'
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88

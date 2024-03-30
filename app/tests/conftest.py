@@ -1,18 +1,19 @@
 import asyncio
 import datetime
 import json
-import pytest
 
-import app
-from app.database import Base, async_session_maker, engine
-from app.users.models import Users
-from app.bookings.models import Bookings
-from app.hotels.models import Hotels
-from sqlalchemy import insert
-from app.hotels.rooms.models import Rooms
+import pytest
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
+from sqlalchemy import insert
+
+import app
+from app.bookings.models import Bookings
+from app.database import Base, async_session_maker, engine
+from app.hotels.models import Hotels
+from app.hotels.rooms.models import Rooms
 from app.main import app as fastapi_app
+from app.users.models import Users
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -60,7 +61,17 @@ def event_loop(request):
 
 @pytest.fixture(scope="function")
 async def client():
-    async with AsyncClient(app=fastapi_app, base_url="http://tests") as ac:
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        yield ac
+
+
+@pytest.fixture(scope="session")
+async def authenticated_client():
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        await ac.post(
+            "/auth/login", json={"email": "test@test.com", "password": "test"}
+        )
+        assert ac.cookies["booking_access_token"]
         yield ac
 
 
