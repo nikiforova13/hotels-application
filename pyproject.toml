@@ -24,6 +24,8 @@ fastapi-cache2 = "^0.2.1"
 redis = "^5.0.3"
 sqladmin = "^0.16.1"
 asyncclient = "^0.0.1"
+fastapi-versioning = "^0.10.0"
+itsdangerous = "^2.1.2"
 
 
 [tool.poetry.group.format.dependencies]
