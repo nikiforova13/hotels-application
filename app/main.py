@@ -1,22 +1,18 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from sqladmin import Admin, ModelView
-
-from app.admin.views import UsersAdmin, BookingsAdmin, RoomsAdmin, HotelsAdmin
-from app.database import engine
-
-from app.bookings import router_bookings
-from app.users import router_auth
-from app.hotels import router_hotels
-from app.hotels import router_rooms
-from app.pages import router_page
-from app.images import router_images
-
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
+from sqladmin import Admin, ModelView
 
+from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
+from app.bookings import router_bookings
+from app.database import engine
+from app.hotels import router_hotels, router_rooms
+from app.images import router_images
+from app.pages import router_page
+from app.users import router_auth
 
 app = FastAPI()
 

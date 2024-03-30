@@ -1,15 +1,16 @@
 import datetime
 
-from fastapi import Request, Depends
-from jose import jwt, JWTError
+from fastapi import Depends, Request
+from jose import JWTError, jwt
+
 from app.database import settings
-from app.users.dao import UserDAO
 from app.exceptions import (
-    TokenExpiredException,
-    TokenAbsentException,
     IncorrectTokenException,
+    TokenAbsentException,
+    TokenExpiredException,
     UserIsNotPresentException,
 )
+from app.users.dao import UserDAO
 
 
 def get_token(requst: Request):

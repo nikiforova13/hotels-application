@@ -1,9 +1,10 @@
+from datetime import UTC, datetime, timedelta
+
+from jose import jwt
 from passlib.context import CryptContext
 
-from app.users.dao import UserDAO
-from jose import jwt
-from datetime import datetime, timedelta, UTC
 from app.database import settings
+from app.users.dao import UserDAO
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

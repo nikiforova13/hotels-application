@@ -1,7 +1,8 @@
+import pathlib
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
-from pydantic_settings import BaseSettings, SettingsConfigDict
-import pathlib
 
 src = pathlib.Path(__file__).absolute().parent.joinpath(".env")
 

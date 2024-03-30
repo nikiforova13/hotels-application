@@ -1,5 +1,5 @@
-from fastapi import UploadFile, APIRouter
 import aiofiles
+from fastapi import APIRouter, UploadFile
 
 router = APIRouter(prefix="/images", tags=["Download images"])
 
