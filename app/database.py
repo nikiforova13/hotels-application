@@ -15,6 +15,10 @@ class DBSettings(BaseSettings):
     DB_PASSWORD: int
     DB_NAME: str
 
+    SMTP_HOST: str
+    SMTP_PORT: int
+    SMTP_USER: str
+    SMTP_PASS: str
     SECRET_KEY: str
     APGORITHM: str
 

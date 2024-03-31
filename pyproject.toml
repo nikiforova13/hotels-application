@@ -26,6 +26,9 @@ sqladmin = "^0.16.1"
 asyncclient = "^0.0.1"
 fastapi-versioning = "^0.10.0"
 itsdangerous = "^2.1.2"
+celery = "^5.3.6"
+flower = "^2.0.1"
+pillow = "^10.2.0"
 
 
 [tool.poetry.group.format.dependencies]

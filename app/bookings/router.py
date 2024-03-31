@@ -2,10 +2,12 @@ from datetime import datetime
 
 from fastapi import APIRouter, Depends
 from fastapi_versioning import version
+from pydantic import parse_obj_as
 
 from app.bookings.dao import BookingDAO
 from app.bookings.schemas import SBooking
 from app.exceptions import RoomCannotBeBooked
+from app.tasks_celery.tasks import send_booking_confirmation_template
 from app.users.dependencies import get_current_user
 from app.users.models import Users
 
@@ -25,10 +27,13 @@ async def add_booking(
     date_from: datetime,
     date_to: datetime,
     user: Users = Depends(get_current_user),
-):
+) -> SBooking:
     booking = await BookingDAO.add(user.id, room_id, date_from, date_to)
     if not booking:
         raise RoomCannotBeBooked
+    booking_dict = parse_obj_as(SBooking, booking).dict()
+    send_booking_confirmation_template.delay(booking_dict, user.email)
+    return booking
 
 
 @version(2)
