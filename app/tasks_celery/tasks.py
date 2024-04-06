@@ -19,7 +19,7 @@ def process_picture(path: str):
     img_resized_200_100.save(f"app/static/images/resized_200_100_{img_path.name}")
 
 
-@celery_app.task
+# @celery_app.task
 def send_booking_confirmation_template(booking: dict, email_to: EmailStr):
     email_to_mock = settings.SMTP_USER
     msg_content = create_booking_confirmation_template(booking, email_to_mock)

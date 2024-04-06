@@ -15,4 +15,4 @@ class Rooms(Base):
     quantity = Column(Integer)
     image_id = Column(Integer)
     hotel = Relationship("Hotels", back_populates="room")
-    bookings = Relationship('Bookings', back_populates='room')
+    bookings = Relationship("Bookings", back_populates="room")

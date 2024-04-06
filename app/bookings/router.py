@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, BackgroundTasks
 from fastapi_versioning import version
 from pydantic import parse_obj_as
 
@@ -23,6 +23,7 @@ async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBooking
 @version(1)
 @router.post("")
 async def add_booking(
+    task: BackgroundTasks,
     room_id: int,
     date_from: datetime,
     date_to: datetime,
@@ -32,7 +33,10 @@ async def add_booking(
     if not booking:
         raise RoomCannotBeBooked
     booking_dict = parse_obj_as(SBooking, booking).dict()
+    # Celery:
     send_booking_confirmation_template.delay(booking_dict, user.email)
+    # BackgroundTasks
+    # task.add_task(send_booking_confirmation_template, booking_dict, user.email)
     return booking
 
 
