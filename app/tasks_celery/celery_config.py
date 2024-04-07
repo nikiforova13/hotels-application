@@ -1,9 +1,11 @@
 from celery import Celery
 
+from app.config.celery import settings
+
 # from celery.schedules import crontab
 celery_app = Celery(
     "tasks_celery",
-    broker="redis://localhost:6379",
+    broker=settings.BROKER,
     include=["app.tasks_celery.tasks" "app.tasks_celery.scheduled"],
 )
 

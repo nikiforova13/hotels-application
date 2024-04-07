@@ -2,7 +2,7 @@ from email.message import EmailMessage
 
 from pydantic import EmailStr
 
-from app.database import settings
+from app.config.database import settings
 
 
 def create_booking_confirmation_template(booking: dict, email_to: EmailStr):

@@ -3,8 +3,6 @@ from datetime import datetime
 
 from pythonjsonlogger import jsonlogger
 
-from app.database import settings
-
 logger = logging.getLogger()
 
 logHandler = logging.StreamHandler()
@@ -28,4 +26,4 @@ formatter = CustomJsonFormatter(
 
 logHandler.setFormatter(formatter)
 logger.addHandler(logHandler)
-logger.setLevel(settings.LOG_LEVEL)
+logger.setLevel("INFO")

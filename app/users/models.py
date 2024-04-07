@@ -1,7 +1,7 @@
-from sqlalchemy import JSON, Column, Computed, Date, ForeignKey, Integer, String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
-from app.database import Base
+from app.config.database import Base
 
 
 class Users(Base):

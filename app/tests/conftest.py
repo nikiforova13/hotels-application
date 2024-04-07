@@ -3,13 +3,11 @@ import datetime
 import json
 
 import pytest
-from fastapi.testclient import TestClient
+from config.database import Base, async_session_maker, engine
 from httpx import AsyncClient
 from sqlalchemy import insert
 
-import app
 from app.bookings.models import Bookings
-from app.database import Base, async_session_maker, engine
 from app.hotels.models import Hotels
 from app.hotels.rooms.models import Rooms
 from app.main import app as fastapi_app

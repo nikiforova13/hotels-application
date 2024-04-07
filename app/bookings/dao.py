@@ -1,15 +1,14 @@
 import datetime
 
 import sqlalchemy as sa
+from sqlalchemy.exc import SQLAlchemyError
 
 from app.bookings.models import Bookings
+from app.config.database import async_session_maker
 from app.dao.base import BaseDAO
-from app.database import async_session_maker
 from app.exceptions import BookingNotFound
 from app.hotels.dao import HotelsDAO
 from app.hotels.rooms.models import Rooms
-from sqlalchemy.exc import SQLAlchemyError
-
 from app.logger import logger
 
 

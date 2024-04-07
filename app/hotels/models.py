@@ -1,7 +1,7 @@
 from sqlalchemy import JSON, Column, Integer, String
 from sqlalchemy.orm import Relationship
 
-from app.database import Base
+from app.config.database import Base
 
 
 class Hotels(Base):

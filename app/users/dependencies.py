@@ -3,7 +3,7 @@ import datetime
 from fastapi import Depends, Request
 from jose import JWTError, jwt
 
-from app.database import settings
+from app.config.auth import settings
 from app.exceptions import (
     IncorrectTokenException,
     TokenAbsentException,

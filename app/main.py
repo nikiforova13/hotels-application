@@ -1,6 +1,7 @@
 import time
 from contextlib import asynccontextmanager
 
+import sentry_sdk
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
@@ -13,16 +14,16 @@ from sqladmin import Admin
 from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
 from app.auth_sqladmin import authentication_backend
 from app.bookings import router_bookings
-from app.database import engine
+from app.config.database import engine
+from app.config.sentry import settings
 from app.hotels import router_hotels, router_rooms
 from app.images import router_images
+from app.logger import logger
 from app.pages import router_page
 from app.users import router_auth
-from app.logger import logger
-import sentry_sdk
 
 sentry_sdk.init(
-    dsn="https://f73ab94f6c53b3fb07f0c2454c10ad80@o4507040709672960.ingest.us.sentry.io/4507040710983680",
+    dsn=settings.DSN,
     enable_tracing=True,
     traces_sample_rate=1.0,
 )
@@ -40,7 +41,7 @@ app = FastAPI(lifespan=lifespan)
 
 @app.get("/sentry-debug")
 async def trigger_error():
-    division_by_zero = 1 / 0
+    return 1 / 0
 
 
 app.include_router(router_auth)

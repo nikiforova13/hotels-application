@@ -1,6 +1,6 @@
 import sqlalchemy as sa
 
-from app.database import async_session_maker
+from app.config.database import async_session_maker
 
 
 class BaseDAO:
