@@ -1,0 +1,54 @@
+version: '3.0'
+services:
+  db:
+    image: postgres:15
+    container_name: hotels_db
+    env_file:
+      - app/.env.k
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:7
+    container_name: hotels_redis
+
+  hotels_app:
+    build:
+      context: .
+    container_name: hotels_app
+    env_file:
+      - app/.env
+    depends_on:
+      - db
+      - redis
+    command: >
+       sh -c "cd /opt/app && poetry run alembic upgrade head && poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    ports:
+      - 9000:8000
+
+#  celery:
+#    build:
+#      context: .
+#    container_name: hotels_celery
+#    depends_on:
+#      - redis
+#      - hotels_app
+#    command: >
+#      sh -c "poetry run celery --app=app.tasks_celery.celery_config:celery_app worker -l INFO"
+#    env_file:
+#      - app/.env
+#
+#
+#  flower:
+#    build:
+#      context: .
+#    container_name: hotels_flower
+#    depends_on:
+#      - redis
+#      - hotels_app
+#    command: >
+#      sh -c "poetry run celery --app=app.tasks_celery.celery_config:celery_app flower"
+#    env_file:
+#      - app/.env
+
+

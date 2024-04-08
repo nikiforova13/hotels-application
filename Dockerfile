@@ -12,4 +12,3 @@ RUN poetry install --no-interaction --no-cache
 
 COPY . .
 
-CMD ["uvicorn", "app.main:app", "--workers", "4", "--worker-class", "uvicorn.worker.UvicornWorker", "--port", "8000", "--host", "0.0.0.0"]

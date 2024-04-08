@@ -5,8 +5,8 @@ from os.path import abspath, dirname
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
-from config.database import Base, settings
+sys.path.insert(0, dirname(dirname(abspath(__file__))))
+from app.config.database import Base, settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

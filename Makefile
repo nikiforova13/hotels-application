@@ -1,5 +1,6 @@
 PYTHONPATH= PYTHONPATH=src
 APP = app/
+
 run:
 	$(PYTHONPATH) uvicorn app.main:app --reload --port 8088 --host 127.0.0.1
 
@@ -11,10 +12,10 @@ lint:
 	flake8 $(APP)
 
 rev:
-	alembic revision --autogenerate -m
+	poetry run alembic revision --autogenerate -m
 
 migrate:
-	alembic update head
+	poetry run alembic upgrade head
 
 downgrade:
-	alembic downgrade -1
+	poetry run alembic downgrade -1
