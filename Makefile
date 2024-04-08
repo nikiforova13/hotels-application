@@ -1,8 +1,7 @@
-PYTHONPATH= PYTHONPATH=src
 APP = app/
 
 run:
-	$(PYTHONPATH) uvicorn app.main:app --reload --port 8088 --host 127.0.0.1
+	poetry run uvicorn app.main:app --reload --port 8088 --host 127.0.0.1
 
 format:
 	black $(APP)

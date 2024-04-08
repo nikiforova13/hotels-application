@@ -22,7 +22,8 @@ services:
       - db
       - redis
     command: >
-       sh -c "cd /opt/app && poetry run alembic upgrade head && poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000"
+       sh -c "make run"
+#       sh -c "cd /opt/ && poetry run alembic upgrade head && poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000"
     ports:
       - 9000:8000
 
