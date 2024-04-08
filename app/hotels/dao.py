@@ -125,3 +125,4 @@ class HotelsDAO(BaseDAO):
         async with async_session_maker() as session:
             rooms = await session.execute(all_free_rooms_in_certain_hotel)
             return rooms.mappings().all()
+
