@@ -3,10 +3,12 @@ services:
   db:
     image: postgres:15
     container_name: hotels_db
-    env_file:
-      - app/.env.k
     ports:
-      - 5432:5432
+      - 5455:5455
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db-dev-hotels-app
 
   redis:
     image: redis:7
@@ -22,34 +24,40 @@ services:
       - db
       - redis
     command: >
-       sh -c "make run"
-#       sh -c "cd /opt/ && poetry run alembic upgrade head && poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000"
+       sh -c "make migrate && make run"
     ports:
       - 9000:8000
+    environment:
+      DB_HOST: localhost
+      DB_PORT: 5455
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: db-dev-hotels-app
 
-#  celery:
-#    build:
-#      context: .
-#    container_name: hotels_celery
-#    depends_on:
-#      - redis
-#      - hotels_app
-#    command: >
-#      sh -c "poetry run celery --app=app.tasks_celery.celery_config:celery_app worker -l INFO"
-#    env_file:
-#      - app/.env
-#
-#
-#  flower:
-#    build:
-#      context: .
-#    container_name: hotels_flower
-#    depends_on:
-#      - redis
-#      - hotels_app
-#    command: >
-#      sh -c "poetry run celery --app=app.tasks_celery.celery_config:celery_app flower"
-#    env_file:
-#      - app/.env
+
+  celery:
+    build:
+      context: .
+    container_name: hotels_celery
+    depends_on:
+      - redis
+      - hotels_app
+    command: >
+      sh -c "poetry run celery --app=app.tasks_celery.celery_config:celery_app worker -l INFO"
+    env_file:
+      - app/.env
+
+
+  flower:
+    build:
+      context: .
+    container_name: hotels_flower
+    depends_on:
+      - redis
+      - hotels_app
+    command: >
+      sh -c "poetry run celery --app=app.tasks_celery.celery_config:celery_app flower"
+    env_file:
+      - app/.env
 
 

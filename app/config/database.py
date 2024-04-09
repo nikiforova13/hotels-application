@@ -12,7 +12,7 @@ class DBSettings(BaseSettings):
     HOST: str
     PORT: int
     USER: str
-    PASSWORD: int
+    PASSWORD: int | str
     NAME: str
 
     @property
