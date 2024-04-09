@@ -21,6 +21,7 @@ from app.images import router_images
 from app.logger import logger
 from app.pages import router_page
 from app.users import router_auth
+from prometheus_fastapi_instrumentator import Instrumentator
 
 sentry_sdk.init(
     dsn=settings.DSN,
@@ -43,6 +44,10 @@ app = FastAPI(lifespan=lifespan)
 async def trigger_error():
     return 1 / 0
 
+@app.get('/memory_consumer')
+def memory_consumer():
+    _ = [i for i in range(10_000_000)]
+    return 1
 
 app.include_router(router_auth)
 app.include_router(router_bookings)
@@ -59,6 +64,9 @@ app = VersionedFastAPI(
     lifespan=lifespan,
 )
 
+instrumentator = Instrumentator(should_group_status_codes=False,
+                                excluded_handlers=[".*admin.*", '/metrics'])
+instrumentator.instrument(app).expose(app)
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 admin.add_view(UsersAdmin)
