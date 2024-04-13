@@ -12,3 +12,4 @@ RUN poetry install --no-interaction --no-cache
 
 COPY . .
 
+CMD ["poetry" ,"run" ,"uvicorn" ,"app.main:app", "--port", "8080" ,"--host" ,"0.0.0.0"]
