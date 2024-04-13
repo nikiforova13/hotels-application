@@ -5,7 +5,7 @@ PROJECT_NAME = hotels-application
 
 -include $(ENV_FILE)
 run:
-	poetry run uvicorn app.main:app --reload --port 8088 --host 127.0.0.1
+	poetry run uvicorn app.main:app --port 8080 --host 0.0.0.0
 
 celery_run:
 	poetry run celery --app=app.tasks_celery.celery_config:celery_app worker -l INFO
